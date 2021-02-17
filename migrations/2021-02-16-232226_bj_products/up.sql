@@ -1,6 +1,7 @@
 CREATE TABLE bj_products (
     product_id VARCHAR(30) NOT NULL,
     name VARCHAR(100) NOT NULL,
+    subhead VARCHAR(200) NOT NULL,
     description VARCHAR(400) NOT NULL,
     rating REAL NOT NULL,
     rating_count INT NOT NULL,
