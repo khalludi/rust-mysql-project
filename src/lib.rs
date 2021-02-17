@@ -11,6 +11,7 @@ use self::models::HdProduct;
 use self::models::TalentiProduct;
 use self::models::BjReview;
 use self::models::BreyersReview;
+use self::models::HdReview;
 use self::models::TalentiReview;
 
 use diesel::prelude::*;
@@ -43,6 +44,15 @@ pub fn create_breyers_reviews<'a>(conn: &MysqlConnection, vec: Vec<BreyersReview
         .values(vec)
         .execute(conn)
         .expect("Error saving breyers reviews");
+}
+
+pub fn create_hd_reviews<'a>(conn: &MysqlConnection, vec: Vec<HdReview>) {
+    use schema::hd_reviews;
+
+    diesel::insert_into(hd_reviews::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving hd reviews");
 }
 
 pub fn create_talenti_reviews<'a>(conn: &MysqlConnection, vec: Vec<TalentiReview>) {
