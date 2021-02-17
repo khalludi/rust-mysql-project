@@ -54,3 +54,31 @@ CREATE TABLE bj_reviews (
     PRIMARY KEY(review_id),
     FOREIGN KEY(product_id) REFERENCES bj_products(product_id)
 );
+
+CREATE TABLE breyers_reviews (
+    review_id INT NOT NULL AUTO_INCREMENT,
+    product_id VARCHAR(30) NOT NULL,
+    author VARCHAR(100) NOT NULL DEFAULT "",
+    date_posted DATE NOT NULL,
+    stars INT NOT NULL,
+    title VARCHAR(200) NOT NULL DEFAULT "",
+    helpful_yes INT NOT NULL DEFAULT 0,
+    helpful_no INT NOT NULL DEFAULT 0,
+    review_text VARCHAR(2500) NOT NULL DEFAULT "",
+    PRIMARY KEY(review_id),
+    FOREIGN KEY(product_id) REFERENCES breyers_products(product_id)
+);
+
+CREATE TABLE talenti_reviews (
+    review_id INT NOT NULL AUTO_INCREMENT,
+    product_id VARCHAR(30) NOT NULL,
+    author VARCHAR(100) NOT NULL DEFAULT "",
+    date_posted DATE NOT NULL,
+    stars INT NOT NULL,
+    title VARCHAR(200) NOT NULL DEFAULT "",
+    helpful_yes REAL NOT NULL DEFAULT 0,
+    helpful_no REAL NOT NULL DEFAULT 0,
+    review_text VARCHAR(3000) NOT NULL DEFAULT "",
+    PRIMARY KEY(review_id),
+    FOREIGN KEY(product_id) REFERENCES talenti_products(product_id)
+);

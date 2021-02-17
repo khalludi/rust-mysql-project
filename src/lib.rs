@@ -10,6 +10,9 @@ use self::models::BreyersProduct;
 use self::models::HdProduct;
 use self::models::TalentiProduct;
 use self::models::BjReview;
+use self::models::BreyersReview;
+use self::models::TalentiReview;
+
 use diesel::prelude::*;
 use diesel::mysql::MysqlConnection;
 use dotenv::dotenv;
@@ -31,6 +34,24 @@ pub fn create_bj_reviews<'a>(conn: &MysqlConnection, vec: Vec<BjReview>) {
         .values(vec)
         .execute(conn)
         .expect("Error saving bj reviews");
+}
+
+pub fn create_breyers_reviews<'a>(conn: &MysqlConnection, vec: Vec<BreyersReview>) {
+    use schema::breyers_reviews;
+
+    diesel::insert_into(breyers_reviews::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving breyers reviews");
+}
+
+pub fn create_talenti_reviews<'a>(conn: &MysqlConnection, vec: Vec<TalentiReview>) {
+    use schema::talenti_reviews;
+
+    diesel::insert_into(talenti_reviews::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving talenti reviews");
 }
 
 pub fn create_bj_posts<'a>(conn: &MysqlConnection, vec: Vec<BjProduct>) {

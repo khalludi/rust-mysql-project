@@ -3,6 +3,8 @@ use super::schema::breyers_products;
 use super::schema::talenti_products;
 use super::schema::hd_products;
 use super::schema::bj_reviews;
+use super::schema::breyers_reviews;
+use super::schema::talenti_reviews;
 use serde::Deserialize;
 use chrono::NaiveDate;
 
@@ -64,6 +66,32 @@ pub struct BjReviewQueryable {
     pub review_text: String
 }
 
+#[derive(Queryable)]
+pub struct BreyersReviewQueryable {
+    pub review_id: i32,
+    pub product_id: String,
+    pub author: String,
+    pub date_posted: NaiveDate,
+    pub stars: i32,
+    pub title: String,
+    pub helpful_yes: i32,
+    pub helpful_no: i32,
+    pub review_text: String
+}
+
+#[derive(Queryable)]
+pub struct TalentiReviewQueryable {
+    pub review_id: i32,
+    pub product_id: String,
+    pub author: String,
+    pub date_posted: NaiveDate,
+    pub stars: i32,
+    pub title: String,
+    pub helpful_yes: f64,
+    pub helpful_no: f64,
+    pub review_text: String
+}
+
 #[derive(Insertable, Deserialize)]
 #[table_name="bj_reviews"]
 pub struct BjReview {
@@ -77,6 +105,38 @@ pub struct BjReview {
     pub title: String,
     pub helpful_yes: i32,
     pub helpful_no: i32,
+    pub review_text: String
+}
+
+#[derive(Insertable, Deserialize)]
+#[table_name="breyers_reviews"]
+pub struct BreyersReview {
+    pub product_id: String,
+    pub author: String,
+
+    #[serde(with = "my_date_format")]
+    pub date_posted: NaiveDate,
+
+    pub stars: i32,
+    pub title: String,
+    pub helpful_yes: i32,
+    pub helpful_no: i32,
+    pub review_text: String
+}
+
+#[derive(Insertable, Deserialize)]
+#[table_name="talenti_reviews"]
+pub struct TalentiReview {
+    pub product_id: String,
+    pub author: String,
+
+    #[serde(with = "my_date_format")]
+    pub date_posted: NaiveDate,
+
+    pub stars: i32,
+    pub title: String,
+    pub helpful_yes: f64,
+    pub helpful_no: f64,
     pub review_text: String
 }
 

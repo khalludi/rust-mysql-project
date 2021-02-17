@@ -8,7 +8,7 @@ use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 
-const SHOULD_INSERT: bool = false;
+const SHOULD_INSERT: bool = true;
 
 fn main() -> Result<(), csv::Error> {
 
@@ -27,6 +27,10 @@ fn main() -> Result<(), csv::Error> {
             .expect("Failed to insert bj_products table");
         insert_bj_reviews(&connection)
             .expect("Failed to insert bj_reviews table");
+        insert_breyers_reviews(&connection)
+            .expect("Failed to insert breyers_reviews table");
+        insert_talenti_reviews(&connection)
+            .expect("Failed to insert talenti_reviews table");
     }
 
     Ok(())
@@ -72,6 +76,54 @@ fn insert_bj_reviews(conn: &MysqlConnection) -> Result<(), csv::Error> {
     }
 
     create_bj_reviews(&conn, reviews_vec);
+
+    Ok(())
+}
+
+fn insert_breyers_reviews(conn: &MysqlConnection) -> Result<(), csv::Error> {
+    let path = Path::new("/Users/khalid/prog/rust_prog/icecream_sql/archive/breyers/reviews.csv");
+    let display = path.display();
+
+    // Open the path in read-only mode, returns `io::Result<File>`
+    let file = match File::open(&path) {
+        Err(why) => panic!("couldn't open {}: {}", display, why),
+        Ok(file) => file,
+    };
+
+    // Read CSV as Vector of Reviews
+    let mut reader = csv::Reader::from_reader(file);
+    let mut reviews_vec: Vec<BreyersReview> = vec![];
+
+    for record in reader.deserialize() {
+        let record: BreyersReview = record?;
+        reviews_vec.push(record);
+    }
+
+    create_breyers_reviews(&conn, reviews_vec);
+
+    Ok(())
+}
+
+fn insert_talenti_reviews(conn: &MysqlConnection) -> Result<(), csv::Error> {
+    let path = Path::new("/Users/khalid/prog/rust_prog/icecream_sql/archive/talenti/reviews.csv");
+    let display = path.display();
+
+    // Open the path in read-only mode, returns `io::Result<File>`
+    let file = match File::open(&path) {
+        Err(why) => panic!("couldn't open {}: {}", display, why),
+        Ok(file) => file,
+    };
+
+    // Read CSV as Vector of Reviews
+    let mut reader = csv::Reader::from_reader(file);
+    let mut reviews_vec: Vec<TalentiReview> = vec![];
+
+    for record in reader.deserialize() {
+        let record: TalentiReview = record?;
+        reviews_vec.push(record);
+    }
+
+    create_talenti_reviews(&conn, reviews_vec);
 
     Ok(())
 }
