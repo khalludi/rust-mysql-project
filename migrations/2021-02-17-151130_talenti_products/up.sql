@@ -106,3 +106,21 @@ CREATE TABLE bj_photos (
     photo MEDIUMBLOB NOT NULL,
     PRIMARY KEY(photo_id)
 );
+
+CREATE TABLE breyers_photos (
+    photo_id VARCHAR(30) NOT NULL,
+    photo MEDIUMBLOB NOT NULL,
+    PRIMARY KEY(photo_id)
+);
+
+CREATE TABLE hd_photos (
+    photo_id VARCHAR(30) NOT NULL,
+    photo MEDIUMBLOB NOT NULL,
+    PRIMARY KEY(photo_id)
+);
+
+CREATE TABLE talenti_photos (
+    photo_id VARCHAR(30) NOT NULL,
+    photo MEDIUMBLOB NOT NULL,
+    PRIMARY KEY(photo_id)
+);

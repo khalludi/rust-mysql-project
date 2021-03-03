@@ -7,3 +7,6 @@ DROP TABLE IF EXISTS hd_products;
 DROP TABLE IF EXISTS breyers_products;
 DROP TABLE IF EXISTS bj_products;
 DROP TABLE IF EXISTS bj_photos;
+DROP TABLE IF EXISTS breyers_photos;
+DROP TABLE IF EXISTS hd_photos;
+DROP TABLE IF EXISTS talenti_photos;

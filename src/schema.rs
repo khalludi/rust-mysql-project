@@ -32,6 +32,13 @@ table! {
 }
 
 table! {
+    breyers_photos (photo_id) {
+        photo_id -> Varchar,
+        photo -> Mediumblob,
+    }
+}
+
+table! {
     breyers_products (product_id) {
         product_id -> Varchar,
         name -> Varchar,
@@ -53,6 +60,13 @@ table! {
         helpful_yes -> Integer,
         helpful_no -> Integer,
         review_text -> Varchar,
+    }
+}
+
+table! {
+    hd_photos (photo_id) {
+        photo_id -> Varchar,
+        photo -> Mediumblob,
     }
 }
 
@@ -82,6 +96,13 @@ table! {
         ingredients -> Double,
         texture -> Double,
         likes -> Varchar,
+    }
+}
+
+table! {
+    talenti_photos (photo_id) {
+        photo_id -> Varchar,
+        photo -> Mediumblob,
     }
 }
 
@@ -119,10 +140,13 @@ allow_tables_to_appear_in_same_query!(
     bj_photos,
     bj_products,
     bj_reviews,
+    breyers_photos,
     breyers_products,
     breyers_reviews,
+    hd_photos,
     hd_products,
     hd_reviews,
+    talenti_photos,
     talenti_products,
     talenti_reviews,
 );

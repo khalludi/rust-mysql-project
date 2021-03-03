@@ -6,6 +6,9 @@ extern crate diesel;
 extern crate dotenv;
 
 use self::models::BjPhoto;
+use self::models::BreyersPhoto;
+use self::models::HdPhoto;
+use self::models::TalentiPhoto;
 use self::models::BjProduct;
 use self::models::BreyersProduct;
 use self::models::HdProduct;
@@ -36,6 +39,33 @@ pub fn create_bj_photos<'a>(conn: &MysqlConnection, vec: Vec<BjPhoto>) {
         .values(vec)
         .execute(conn)
         .expect("Error saving bj photos");
+}
+
+pub fn create_breyers_photos<'a>(conn: &MysqlConnection, vec: Vec<BreyersPhoto>) {
+    use schema::breyers_photos;
+
+    diesel::insert_into(breyers_photos::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving breyers photos");
+}
+
+pub fn create_hd_photos<'a>(conn: &MysqlConnection, vec: Vec<HdPhoto>) {
+    use schema::hd_photos;
+
+    diesel::insert_into(hd_photos::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving hd photos");
+}
+
+pub fn create_talenti_photos<'a>(conn: &MysqlConnection, vec: Vec<TalentiPhoto>) {
+    use schema::talenti_photos;
+
+    diesel::insert_into(talenti_photos::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving talenti photos");
 }
 
 pub fn create_bj_reviews<'a>(conn: &MysqlConnection, vec: Vec<BjReview>) {

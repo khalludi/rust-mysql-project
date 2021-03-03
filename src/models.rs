@@ -1,4 +1,7 @@
 use super::schema::bj_photos;
+use super::schema::breyers_photos;
+use super::schema::hd_photos;
+use super::schema::talenti_photos;
 use super::schema::bj_products;
 use super::schema::breyers_products;
 use super::schema::talenti_products;
@@ -13,6 +16,28 @@ use chrono::NaiveDate;
 #[derive(Insertable, Queryable)]
 #[table_name="bj_photos"]
 pub struct BjPhoto {
+    pub photo_id: String,
+    pub photo: Vec<u8>
+}
+
+#[derive(Insertable, Queryable)]
+#[table_name="breyers_photos"]
+pub struct BreyersPhoto {
+    pub photo_id: String,
+    pub photo: Vec<u8>
+}
+
+
+#[derive(Insertable, Queryable)]
+#[table_name="hd_photos"]
+pub struct HdPhoto {
+    pub photo_id: String,
+    pub photo: Vec<u8>
+}
+
+#[derive(Insertable, Queryable)]
+#[table_name="talenti_photos"]
+pub struct TalentiPhoto {
     pub photo_id: String,
     pub photo: Vec<u8>
 }

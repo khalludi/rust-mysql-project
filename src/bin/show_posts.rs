@@ -14,7 +14,7 @@ const SHOULD_INSERT: bool = false;
 fn main() -> Result<(), csv::Error> {
 
     let connection = establish_connection();
-    // display_results(&connection);
+    display_results(&connection);
     download_bj_photos(&connection);
 
     // File IO
@@ -37,6 +37,12 @@ fn main() -> Result<(), csv::Error> {
             .expect("Failed to insert talenti_reviews table");
         insert_bj_photos(&connection)
             .expect("Failed to insert bj_photos table");
+        insert_breyers_photos(&connection)
+            .expect("Failed to insert breyers_photos table");
+        insert_hd_photos(&connection)
+            .expect("Failed to insert hd_photos table");
+        insert_talenti_photos(&connection)
+            .expect("Failed to insert talenti_photos table");
     }
 
     Ok(())
@@ -95,6 +101,66 @@ fn insert_bj_photos(conn: &MysqlConnection) -> io::Result<()> {
     }
 
     create_bj_photos(conn, photos_vec);
+    
+    Ok(())
+}
+
+fn insert_breyers_photos(conn: &MysqlConnection) -> io::Result<()> {
+    let entries = fs::read_dir("archive/breyers/images")?
+        .map(|res| res.map(|e| e.path()))
+        .collect::<Result<Vec<_>, io::Error>>()?;
+    
+    let mut photos_vec: Vec<BreyersPhoto> = vec![];
+    for e in &entries {
+        let bytes = std::fs::read(e);
+        let this_photo = BreyersPhoto {
+            photo_id: e.file_name().ok_or(0).unwrap().to_str().ok_or(0).unwrap().to_string(), 
+            photo: bytes.unwrap_or_default()
+        };
+        photos_vec.push(this_photo);
+    }
+
+    create_breyers_photos(conn, photos_vec);
+    
+    Ok(())
+}
+
+fn insert_hd_photos(conn: &MysqlConnection) -> io::Result<()> {
+    let entries = fs::read_dir("archive/hd/images")?
+        .map(|res| res.map(|e| e.path()))
+        .collect::<Result<Vec<_>, io::Error>>()?;
+    
+    let mut photos_vec: Vec<HdPhoto> = vec![];
+    for e in &entries {
+        let bytes = std::fs::read(e);
+        let this_photo = HdPhoto {
+            photo_id: e.file_name().ok_or(0).unwrap().to_str().ok_or(0).unwrap().to_string(), 
+            photo: bytes.unwrap_or_default()
+        };
+        photos_vec.push(this_photo);
+    }
+
+    create_hd_photos(conn, photos_vec);
+    
+    Ok(())
+}
+
+fn insert_talenti_photos(conn: &MysqlConnection) -> io::Result<()> {
+    let entries = fs::read_dir("archive/talenti/images")?
+        .map(|res| res.map(|e| e.path()))
+        .collect::<Result<Vec<_>, io::Error>>()?;
+    
+    let mut photos_vec: Vec<TalentiPhoto> = vec![];
+    for e in &entries {
+        let bytes = std::fs::read(e);
+        let this_photo = TalentiPhoto {
+            photo_id: e.file_name().ok_or(0).unwrap().to_str().ok_or(0).unwrap().to_string(), 
+            photo: bytes.unwrap_or_default()
+        };
+        photos_vec.push(this_photo);
+    }
+
+    create_talenti_photos(conn, photos_vec);
     
     Ok(())
 }
