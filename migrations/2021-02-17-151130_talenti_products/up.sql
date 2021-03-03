@@ -100,3 +100,9 @@ CREATE TABLE talenti_reviews (
     PRIMARY KEY(review_id),
     FOREIGN KEY(product_id) REFERENCES talenti_products(product_id)
 );
+
+CREATE TABLE bj_photos (
+    photo_id VARCHAR(30) NOT NULL,
+    photo MEDIUMBLOB NOT NULL,
+    PRIMARY KEY(photo_id)
+);

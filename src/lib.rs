@@ -5,6 +5,7 @@ pub mod models;
 extern crate diesel;
 extern crate dotenv;
 
+use self::models::BjPhoto;
 use self::models::BjProduct;
 use self::models::BreyersProduct;
 use self::models::HdProduct;
@@ -26,6 +27,15 @@ pub fn establish_connection() -> MysqlConnection {
         .expect("DATABASE_URL must be set");
     MysqlConnection::establish(&database_url)
         .expect(&format!("Error connecting to {}", database_url))
+}
+
+pub fn create_bj_photos<'a>(conn: &MysqlConnection, vec: Vec<BjPhoto>) {
+    use schema::bj_photos;
+
+    diesel::insert_into(bj_photos::table)
+        .values(vec)
+        .execute(conn)
+        .expect("Error saving bj photos");
 }
 
 pub fn create_bj_reviews<'a>(conn: &MysqlConnection, vec: Vec<BjReview>) {

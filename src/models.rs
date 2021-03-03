@@ -1,3 +1,4 @@
+use super::schema::bj_photos;
 use super::schema::bj_products;
 use super::schema::breyers_products;
 use super::schema::talenti_products;
@@ -8,6 +9,13 @@ use super::schema::hd_reviews;
 use super::schema::talenti_reviews;
 use serde::Deserialize;
 use chrono::NaiveDate;
+
+#[derive(Insertable, Queryable)]
+#[table_name="bj_photos"]
+pub struct BjPhoto {
+    pub photo_id: String,
+    pub photo: Vec<u8>
+}
 
 #[derive(Insertable, Queryable, Deserialize)]
 #[table_name="bj_products"]

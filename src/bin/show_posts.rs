@@ -7,13 +7,15 @@ use self::diesel::prelude::*;
 // use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
+use std::{fs, io};
 
 const SHOULD_INSERT: bool = false;
 
 fn main() -> Result<(), csv::Error> {
 
     let connection = establish_connection();
-    display_results(&connection);
+    // display_results(&connection);
+    download_bj_photos(&connection);
 
     // File IO
     if SHOULD_INSERT {
@@ -33,9 +35,28 @@ fn main() -> Result<(), csv::Error> {
             .expect("Failed to insert hd_reviews table");
         insert_talenti_reviews(&connection)
             .expect("Failed to insert talenti_reviews table");
+        insert_bj_photos(&connection)
+            .expect("Failed to insert bj_photos table");
     }
 
     Ok(())
+}
+
+fn download_bj_photos(conn: &MysqlConnection) {
+    use icecream_sql::schema::bj_photos::dsl::*;
+
+    let results = bj_photos
+        .limit(1)
+        .load::<BjPhoto>(conn)
+        .expect("Error loading bj_photos");
+
+    println!("Displaying {} photos", results.len());
+    for photos in results {
+        println!("Downloaded {} Photo\n", photos.photo_id);
+        let bytes = photos.photo;
+        fs::write(photos.photo_id, bytes)
+            .expect("Failed to write photo");
+    }
 }
 
 fn display_results(conn: &MysqlConnection) {
@@ -56,6 +77,26 @@ fn display_results(conn: &MysqlConnection) {
         println!("{}", product.review_text);
         println!("-------------\n");
     }
+}
+
+fn insert_bj_photos(conn: &MysqlConnection) -> io::Result<()> {
+    let entries = fs::read_dir("archive/bj/images")?
+        .map(|res| res.map(|e| e.path()))
+        .collect::<Result<Vec<_>, io::Error>>()?;
+    
+    let mut photos_vec: Vec<BjPhoto> = vec![];
+    for e in &entries {
+        let bytes = std::fs::read(e);
+        let this_photo = BjPhoto {
+            photo_id: e.file_name().ok_or(0).unwrap().to_str().ok_or(0).unwrap().to_string(), 
+            photo: bytes.unwrap_or_default()
+        };
+        photos_vec.push(this_photo);
+    }
+
+    create_bj_photos(conn, photos_vec);
+    
+    Ok(())
 }
 
 fn insert_bj_reviews(conn: &MysqlConnection) -> Result<(), csv::Error> {

@@ -1,4 +1,11 @@
 table! {
+    bj_photos (photo_id) {
+        photo_id -> Varchar,
+        photo -> Mediumblob,
+    }
+}
+
+table! {
     bj_products (product_id) {
         product_id -> Varchar,
         name -> Varchar,
@@ -109,6 +116,7 @@ joinable!(hd_reviews -> hd_products (product_id));
 joinable!(talenti_reviews -> talenti_products (product_id));
 
 allow_tables_to_appear_in_same_query!(
+    bj_photos,
     bj_products,
     bj_reviews,
     breyers_products,
